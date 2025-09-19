@@ -73,5 +73,4 @@ La idea es que la propia inmobiliaria pueda subir un perfil de cada agente y lue
 ## Nota
 
 - Todas las relaciones entre casas y agentes se gestionan automáticamente según la ubicación.  
-- Las imágenes y datos son ejemplos de práctica y no corresponden a personas o inmuebles reales.  
-- El archivo `.env` se incluye temporalmente para facilitar la corrección por parte del profesorado y se ocultará posteriormente.
+- Las imágenes y datos son ejemplos de práctica y no corresponden a agentes inmobiliarios o inmuebles a la venta reales.
