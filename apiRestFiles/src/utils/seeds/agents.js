@@ -1,44 +1,7 @@
 require("dotenv").config();
 const { connectDB } = require("../../config/db");
 const Agent = require("../../api/models/agents");
-
-const agents = [
-  {
-    img: "",
-    name: "Laura",
-    location: "Huelva",
-    phone: 626734657,
-    email: "laura@gmail.com"
-},
-{
-    img: "",
-    name: "Angel",
-    location: "Cádiz",
-    phone: 629574898,
-    email: "angel@gmail.com"
-},
-{
-    img: "",
-    name: "Jessica",
-    location: "Málaga",
-    phone: 684736458,
-    email: "jessica@gmail.com"
-},
-{
-    img: "",
-    name: "Daniel",
-    location: "Granada",
-    phone: 683475833,
-    email: "daniel@gmail.com"
-},
-{
-    img: "",
-    name: "Alba",
-    location: "Almería",
-    phone: 653885765,
-    email: "alba@gmail.com"
-}
-];
+const agents = require("./data/agents.json");
 
 const seedAgents = async () => {
   try {
@@ -50,7 +13,7 @@ const seedAgents = async () => {
     await Agent.insertMany(agents);
     console.log("Perfiles de agentes inmobiliarios creados");
   } catch (error) {
-    console.error("Error al cargar la semilla");
+    console.error("Error al cargar la semilla", error);
   }
 };
 

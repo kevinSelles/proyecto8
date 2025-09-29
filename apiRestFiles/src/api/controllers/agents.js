@@ -7,25 +7,33 @@ const getAgents = async (req, res, next) => {
     const agents = await Agent.find();
     return res.status(200).json(agents);
   } catch (error) {
-    return res.status(400).json("Error encontrando agentes inmobiliarios, por favor, inténtelo de nuevo.");
+    return res.status(400).json({
+      message: "Error encontrando agentes inmobiliarios, por favor, inténtelo de nuevo.",
+      error: error.message});
   }
 };
+
 const getAgentById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const agent = await Agent.findById(id);
     return res.status(200).json(agent);
   } catch (error) {
-    return res.status(400).json("Error buscando a su agente inmobiliario, inténtelo de nuevo.");
+    return res.status(400).json({
+      message: "Error buscando a su agente inmobiliario, inténtelo de nuevo.",
+      error: error.message});
   }
 };
+
 const getAgentsByLocation = async (req, res, next) => {
   try {
     const { location } = req.params;
     const agents = await Agent.find({ location })
     return res.status(200).json(agents);
   } catch (error) {
-    return res.status(400).json("Error al buscar agentes inmobiliarios en esta zona. Inténtelo de nuevo.");
+    return res.status(400).json({
+      message: "Error al buscar agentes inmobiliarios en esta zona. Inténtelo de nuevo.",
+      error: error.message});
   }
 };
 const postAgent = async (req, res, next) => {
@@ -49,7 +57,9 @@ const postAgent = async (req, res, next) => {
 
     return res.status(201).json(agentSaved);
   } catch (error) {
-    return res.status(400).json("Error al crear perfil del agente inmobiliario. Inténtelo más tarde.");
+    return res.status(400).json({
+      message: "Error al crear perfil del agente inmobiliario. Inténtelo más tarde.",
+      error: error.message});
   }
 };
 
@@ -87,7 +97,9 @@ const putAgent = async (req, res, next) => {
 
     return res.status(200).json(agentUpdated);
   } catch (error) {
-    return res.status(400).json("Error al modificar los datos del agente. Inténtelo de nuevo.");
+    return res.status(400).json({
+      message: "Error al modificar los datos del agente. Inténtelo de nuevo.",
+      error: error.message});
   }
 };
 
@@ -107,7 +119,9 @@ const deleteAgent = async (req, res, next) => {
 
     return res.status(200).json(agentDeleted);
   } catch (error) {
-    return res.status(400).json("Error al eliminar el perfil del agente inmobiliario. Inténtelo de nuevo");
+    return res.status(400).json({
+      message: "Error al eliminar el perfil del agente inmobiliario. Inténtelo de nuevo",
+      error: error.message});
   }
 };
 

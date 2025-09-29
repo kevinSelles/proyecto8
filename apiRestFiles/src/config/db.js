@@ -6,8 +6,7 @@ const connectDB = async () => {
     console.log("Conectado a la bbdd");
     
   } catch (error) {
-    console.log("No se pudo conectar a la bbdd");
-    
+    console.error("No se pudo conectar a la bbdd", error);
   }
 }
 
