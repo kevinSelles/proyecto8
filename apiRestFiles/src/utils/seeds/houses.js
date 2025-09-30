@@ -28,7 +28,10 @@ const seedHouses = async () => {
     console.log("Casas creadas y agentes asignados");
   } catch (error) {
     console.error("Error al cargar la semilla", error);
-  }
+  } finally {
+      await mongoose.disconnect();
+      console.log("Conexión a la BBDD cerrada");
+    }
 };
 
 seedHouses();

@@ -1,4 +1,5 @@
 require("dotenv").config();
+const mongoose = require("mongoose");
 const { connectDB } = require("../../config/db");
 const Agent = require("../../api/models/agents");
 const agents = require("./data/agents.json");
@@ -14,7 +15,10 @@ const seedAgents = async () => {
     console.log("Perfiles de agentes inmobiliarios creados");
   } catch (error) {
     console.error("Error al cargar la semilla", error);
-  }
+  } finally {
+      await mongoose.disconnect();
+      console.log("Conexión a la BBDD cerrada");
+    }
 };
 
 seedAgents();
