@@ -21,7 +21,10 @@ app.use("/api/v1/houses", housesRouter);
 app.use("/api/v1/agents", agentsRouter);
 
 app.use((req, res, next) => {
-  return res.status(404).json("Route not found");
+    return res.status(404).json({
+    message: "Ruta no encontrada",
+    error: "La ruta a la que intentas acceder no existe"
+  });
 })
 
 app.listen(3000, () => {

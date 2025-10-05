@@ -7,7 +7,7 @@ const getAgents = async (req, res, next) => {
     const agents = await Agent.find();
     return res.status(200).json(agents);
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Error encontrando agentes inmobiliarios, por favor, inténtelo de nuevo.",
       error: error.message});
   }
@@ -17,9 +17,14 @@ const getAgentById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const agent = await Agent.findById(id);
+
+    if (!agent) {
+      return res.status(404).json("Agente no encontrado");
+    };
+
     return res.status(200).json(agent);
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Error buscando a su agente inmobiliario, inténtelo de nuevo.",
       error: error.message});
   }
@@ -28,16 +33,26 @@ const getAgentById = async (req, res, next) => {
 const getAgentsByLocation = async (req, res, next) => {
   try {
     const { location } = req.params;
-    const agents = await Agent.find({ location })
+    const agents = await Agent.find({ location });
+
+    if (!agents.length) {
+      return res.status(404).json({ message: "No hay agentes inmobiliarios en esa ubicación." });
+    };
+
     return res.status(200).json(agents);
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Error al buscar agentes inmobiliarios en esta zona. Inténtelo de nuevo.",
       error: error.message});
   }
 };
 const postAgent = async (req, res, next) => {
   try {
+
+    if (!req.body.name || !req.body.email || !req.body.location) {
+      return res.status(400).json({ message: "Faltan campos obligatorios." });
+    };
+
     const newAgent = new Agent(req.body);
 
     if (req.file) {
@@ -57,7 +72,7 @@ const postAgent = async (req, res, next) => {
 
     return res.status(201).json(agentSaved);
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Error al crear perfil del agente inmobiliario. Inténtelo más tarde.",
       error: error.message});
   }
@@ -66,11 +81,17 @@ const postAgent = async (req, res, next) => {
 const putAgent = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const agent = await Agent.findById(id);
+    if (!agent) {
+      return res.status(404).json({ message: "Agente no encontrado." });
+    };
+
     const updatedAgent = req.body;
 
       if (req.file) {
         const oldAgent = await Agent.findById(id);
-        if(oldAgent.img) {
+        if(oldAgent && oldAgent.img) {
           deleteFile(oldAgent.img);
       }
       updatedAgent.img = req.file.path;
@@ -97,7 +118,7 @@ const putAgent = async (req, res, next) => {
 
     return res.status(200).json(agentUpdated);
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Error al modificar los datos del agente. Inténtelo de nuevo.",
       error: error.message});
   }
@@ -107,6 +128,10 @@ const deleteAgent = async (req, res, next) => {
   try {
     const { id } = req.params;
     const agentDeleted = await Agent.findByIdAndDelete(id);
+
+    if (!agentDeleted) {
+      return res.status(404).json({ message: "No se encontró el agente a eliminar." });
+    };
 
     deleteFile(agentDeleted.img);
 
@@ -119,7 +144,7 @@ const deleteAgent = async (req, res, next) => {
 
     return res.status(200).json(agentDeleted);
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Error al eliminar el perfil del agente inmobiliario. Inténtelo de nuevo",
       error: error.message});
   }

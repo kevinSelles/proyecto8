@@ -1,13 +1,13 @@
 const upload = require("../../middlewares/file");
 const { getAgentsByLocation, getAgentById, getAgents, postAgent, putAgent, deleteAgent } = require("../controllers/agents");
 
-const AgentsRouter = require("express").Router();
+const agentsRouter = require("express").Router();
 
-AgentsRouter.get("/location/:location", getAgentsByLocation);
-AgentsRouter.get("/:id", getAgentById);
-AgentsRouter.get("/", getAgents);
-AgentsRouter.post("/", upload.single("img"), postAgent);
-AgentsRouter.put("/:id", upload.single("img"), putAgent);
-AgentsRouter.delete("/:id", deleteAgent);
+agentsRouter.get("/location/:location", getAgentsByLocation);
+agentsRouter.get("/:id", getAgentById);
+agentsRouter.get("/", getAgents);
+agentsRouter.post("/", upload.single("img"), postAgent);
+agentsRouter.put("/:id", upload.single("img"), putAgent);
+agentsRouter.delete("/:id", deleteAgent);
 
-module.exports = AgentsRouter;
+module.exports = agentsRouter;
